@@ -70,14 +70,27 @@ Tools: `current_week`, `list_classes`, `get_week`, `get_entry`, `set_entry`,
 Examples: "Physics got pushed back a day on Thursday", "snow day tomorrow",
 "what's the Biology homework this week?".
 
-## Standalone Windows build (optional)
+## Windows download
 
-Build on Windows so the school computer doesn't need Python:
+GitHub Actions builds Windows executables, so the school computer doesn't need Python.
+Push a version tag to publish a release:
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+When the **Build Windows** workflow finishes, download `LessonPlanner-windows.zip` from the
+repo's Releases page and unzip it anywhere. Run `LessonPlanner\LessonPlanner.exe`. The
+MCP server is `LessonPlanner\lessonplanner-mcp.exe`; use that path in the Claude Desktop config.
+You can also start the workflow by hand from the Actions tab and download the zip from that run.
+
+To build locally on Windows instead:
 
 ```bat
 .venv\Scripts\pip install -e .[dev]
-.venv\Scripts\pyinstaller --windowed --name LessonPlanner packaging\launch_app.py
-.venv\Scripts\pyinstaller --console --name lessonplanner-mcp packaging\launch_mcp.py
+.venv\Scripts\pyinstaller --windowed --paths . --name LessonPlanner packaging\launch_app.py
+.venv\Scripts\pyinstaller --onefile --console --paths . --name lessonplanner-mcp packaging\launch_mcp.py
 ```
 
 ## Development
