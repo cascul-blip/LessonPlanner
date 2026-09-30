@@ -1,0 +1,31 @@
+[project]
+name = "lessonplanner"
+version = "0.1.0"
+description = "Weekly school lesson planner with SQLite storage, lock file, daily backups and an MCP server"
+requires-python = ">=3.10"
+dependencies = [
+    "PySide6>=6.6",
+    "mcp>=2.2,<3",
+    "openpyxl>=3.1",
+    "platformdirs>=4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pyinstaller>=6"]
+
+[project.scripts]
+lessonplanner-mcp = "lessonplanner.mcp_server:main"
+lessonplanner-import = "lessonplanner.importer:main"
+
+[project.gui-scripts]
+lessonplanner = "lessonplanner.gui.app:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["lessonplanner*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
