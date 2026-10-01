@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QMessageBox
 
 from .. import config, lock
@@ -17,6 +19,7 @@ def main() -> int:
     app = QApplication(sys.argv)
     app.setApplicationName(config.APP_NAME)
     app.setDesktopFileName("lessonplanner")
+    app.setWindowIcon(QIcon(str(Path(__file__).parent / "resources" / "icon.png")))
     theme.follow_system(app)
 
     folder = config.db_folder()
