@@ -29,7 +29,7 @@ jobs:
         run: python -m pytest -q
 
       - name: Build app
-        run: pyinstaller --noconfirm --windowed --paths . --name LessonPlanner packaging/launch_app.py
+        run: pyinstaller --noconfirm --windowed --icon packaging/icon.ico --add-data "lessonplanner/gui/resources;lessonplanner/gui/resources" --paths . --name LessonPlanner packaging/launch_app.py
 
       - name: Build MCP server
         run: pyinstaller --noconfirm --onefile --console --paths . --name lessonplanner-mcp packaging/launch_mcp.py

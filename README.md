@@ -89,7 +89,7 @@ To build locally on Windows instead:
 
 ```bat
 .venv\Scripts\pip install -e .[dev]
-.venv\Scripts\pyinstaller --windowed --paths . --name LessonPlanner packaging\launch_app.py
+.venv\Scripts\pyinstaller --windowed --icon packaging\icon.ico --add-data "lessonplanner\gui\resources;lessonplanner\gui\resources" --paths . --name LessonPlanner packaging\launch_app.py
 .venv\Scripts\pyinstaller --onefile --console --paths . --name lessonplanner-mcp packaging\launch_mcp.py
 ```
 
