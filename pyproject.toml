@@ -1,6 +1,6 @@
 [project]
 name = "lessonplanner"
-version = "0.1.0"
+version = "0.2.0"
 description = "Weekly school lesson planner with SQLite storage, lock file, daily backups and an MCP server"
 requires-python = ">=3.10"
 dependencies = [
