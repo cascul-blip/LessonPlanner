@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QFileDialog, QFrame, QHBoxLayout, QInputDialog, QLabel, QMainWindow, QMenu, QMessageBox,
     QPushButton, QTabWidget, QToolButton, QVBoxLayout, QWidget,
 )
+from shiboken6 import isValid
 
 from .. import backup, config, export, lock, schedule, schoolcal
 from ..db import Database, Entry
@@ -220,7 +221,9 @@ class MainWindow(QMainWindow):
         for action in std_menu.actions():
             menu.addAction(action)
         menu.exec(pos)
-        std_menu.deleteLater()
+        menu.deleteLater()
+        if isValid(std_menu):  # the chosen action may have rebuilt the grid that owned it
+            std_menu.deleteLater()
 
     def no_school_menu(self, day: date, pos: QPoint) -> None:
         menu = QMenu(self)
@@ -229,6 +232,7 @@ class MainWindow(QMainWindow):
         menu.addAction("Remove No School (pull all classes back a day)",
                        lambda: self.unmark_no_school(day)).setEnabled(writable)
         menu.exec(pos)
+        menu.deleteLater()
 
     def _confirm(self, text: str) -> bool:
         return QMessageBox.question(self, "Lesson Planner", text) == \
@@ -437,7 +441,11 @@ class MainWindow(QMainWindow):
                                         f"new folder:\n{config.db_folder()}")
 
     def closeEvent(self, event) -> None:
+        # an overdue timer can still fire once after this returns
+        for timer in (self._poll_timer, self._heartbeat_timer, self._backup_timer):
+            timer.stop()
         self.flush_all()
+        self.hide()  # the tablet export below can take a few seconds
         if self._tablet_timer.isActive():
             self._tablet_timer.stop()
             self.export_tablet()
