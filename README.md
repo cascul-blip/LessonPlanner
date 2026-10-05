@@ -76,8 +76,8 @@ GitHub Actions builds Windows executables, so the school computer doesn't need P
 Push a version tag to publish a release:
 
 ```sh
-git tag v0.2.0
-git push origin v0.2.0
+git tag v0.2.1
+git push origin v0.2.1
 ```
 
 When the **Build Windows** workflow finishes, download `LessonPlanner-windows.zip` from the
